@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1> CINEstore</h1>
+        <div id="cart-icon" onclick="toggleCart()"> Cart <span id="cart-count">0</span></div>
+    </header>
+
+    <div id="filters">
+        <input type="text" id="search" placeholder="Search movies..." oninput="renderMovies()">
+        <select id="category" onchange="renderMovies()">
+            <option value="All">All Categories</option>
+            <option value="Action">Action</option>
+            <option value="Sci-fi">Sci-fi</option>
+            <option value="comedy">Comedy</option>
+            <option value="Horror Comedy">Horror Comedy</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Thriller">Thriller</option>
+            <option value="Action/Drama">Action/Drama</option>
+        </select>
+        <select id="sort" onchange="renderMovies()">
+            <option value="default">Sort By</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+        </select>
+    </div>
+
+    <div id="movie-list"></div>
+
+    <div id="cart-sidebar">
+        <h2> Your Cart</h2>
+        <ul id="cart"></ul>
+        <div id="cart-footer">
+            <p>Total: ₹<span id="total">0</span></p>
+            <button id="checkout-btn" onclick="checkout()">Checkout</button>
+            <button id="clear-btn" onclick="clearCart()">Clear Cart</button>
+        </div>
+    </div>
+
+    <div id="overlay" onclick="toggleCart()"></div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal">
+        <div id="checkout-box">
+            <button id="modal-close" onclick="closeCheckout()">✕</button>
+            <h2>🧾 Checkout</h2>
+
+            <div id="order-summary">
+                <h3>Order Summary</h3>
+                <ul id="summary-list"></ul>
+                <p id="summary-total"></p>
+            </div>
+
+            <h3>Customer Details</h3>
+            <div class="form-group">
+                <input type="text" id="cust-name" placeholder="Full Name" required>
+                <input type="email" id="cust-email" placeholder="Email Address" required>
+                <input type="tel" id="cust-phone" placeholder="Phone Number" required>
+            </div>
+
+            <h3>Payment Method</h3>
+            <div id="payment-options">
+                <label class="pay-option">
+                    <input type="radio" name="payment" value="card" checked> 💳 Credit / Debit Card
+                </label>
+                <label class="pay-option">
+                    <input type="radio" name="payment" value="upi"> 📱 UPI
+                </label>
+                <label class="pay-option">
+                    <input type="radio" name="payment" value="cod"> 🚚 Cash on Delivery
+                </label>
+            </div>
+
+            <!-- Card Fields -->
+            <div id="card-fields" class="pay-fields">
+                <input type="text" id="card-number" placeholder="Card Number (16 digits)" maxlength="19">
+                <div class="card-row">
+                    <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5">
+                    <input type="text" id="card-cvv" placeholder="CVV" maxlength="3">
+                </div>
+                <input type="text" id="card-name" placeholder="Name on Card">
+            </div>
+
+            <!-- UPI Fields -->
+            <div id="upi-fields" class="pay-fields" style="display:none">
+                <div id="upi-qr-box">
+                    <img id="upi-qr-img" src="" alt="UPI QR Code">
+                    <p id="upi-qr-label">Scan to Pay ₹<span id="upi-qr-amount"></span></p>
+                    <p id="upi-qr-id">UPI: <strong>moviestore@upi</strong></p>
+                </div>
+                <p id="upi-or">— or enter your UPI ID to pay —</p>
+                <input type="text" id="upi-id" placeholder="Enter your UPI ID (e.g. name@upi)">
+            </div>
+
+            <!-- COD Fields -->
+            <div id="cod-fields" class="pay-fields" style="display:none">
+                <input type="text" id="cod-address" placeholder="Delivery Address">
+            </div>
+
+            <button id="pay-btn" onclick="processPayment()">Pay Now</button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal">
+        <div id="success-box">
+            <div id="success-icon">✅</div>
+            <h2>Payment Successful!</h2>
+            <p id="success-msg"></p>
+            <button onclick="closeSuccess()">Continue Shopping</button>
+        </div>
+    </div>
+
+    <script src="movies.js"></script>
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
